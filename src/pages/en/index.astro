@@ -1,0 +1,98 @@
+---
+// English index page - redirects to splash screen
+import Layout from '../../layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout 
+  title={t('site.title')} 
+  description={t('site.description')}
+  noIndex={true}
+>
+  <script define:vars={{ lang }}>
+    // Redirect to splash screen when page loads
+    if (typeof window !== 'undefined') {
+      window.location.replace('/en/splash');
+    }
+  </script>
+
+  <div class="loading">
+    <h1>🚗 {t('site.name')}</h1>
+    <p>{t('splash.redirecting')}</p>
+  </div>
+</Layout>
+
+<style>
+  .loading {
+    margin: 0;
+    padding: 20px;
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Card - Redirecting...</title>
+  <meta http-equiv="refresh" content="0; url=/en/splash">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 400px;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="spinner"></div>
+    <h1>Car Card</h1>
+    <p>Redirecting to the application...</p>
+    <p><small>If you are not redirected automatically, <a href="/en/splash" style="color: #fbbf24;">click here</a>.</small></p>
+  </div>
+</body>
+</html>

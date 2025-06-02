@@ -1,0 +1,72 @@
+{
+  "tr": {
+    "vehicleInfo": {
+      "brand": "BMW",
+      "model": "X5",
+      "year": "2023",
+      "color": "Siyah",
+      "plateNumber": "34 ABC 123",
+      "ownerName": "Ahmet Yılmaz",
+      "parkingLocation": "Zorlu Center - B2 Kat",
+      "emergencyContact": "+90 555 123 4567",
+      "showPhoneNumber": true
+    },
+    "contactReasons": [
+      {
+        "id": "blocking",
+        "label": "🚗 Aracınız çıkışımı engelliyor",
+        "priority": "high"
+      },
+      {
+        "id": "accident",
+        "label": "⚠️ Kaza durumu",
+        "priority": "urgent"
+      },
+      {
+        "id": "parking",
+        "label": "🅿️ Park yeri sorunu",
+        "priority": "medium"
+      },
+      {
+        "id": "other",
+        "label": "📝 Diğer",
+        "priority": "low"
+      }
+    ]
+  },
+  "en": {
+    "vehicleInfo": {
+      "brand": "BMW",
+      "model": "X5",
+      "year": "2023",
+      "color": "Black",
+      "plateNumber": "34 ABC 123",
+      "ownerName": "John Doe",
+      "parkingLocation": "Zorlu Center - B2 Floor",
+      "emergencyContact": "+90 555 123 4567",
+      "showPhoneNumber": true
+    },
+    "contactReasons": [
+      {
+        "id": "blocking",
+        "label": "🚗 Your vehicle is blocking my exit",
+        "priority": "high"
+      },
+      {
+        "id": "accident",
+        "label": "⚠️ Accident situation",
+        "priority": "urgent"
+      },
+      {
+        "id": "parking",
+        "label": "🅿️ Parking issue",
+        "priority": "medium"
+      },
+      {
+        "id": "other",
+        "label": "📝 Other",
+        "priority": "low"
+      }
+    ]
+  }
+}

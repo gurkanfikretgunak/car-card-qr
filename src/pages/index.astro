@@ -1,0 +1,49 @@
+---
+// Ana index sayfası - splash ekranına yönlendirir
+import Layout from '../layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout 
+  title={t('site.title')} 
+  description={t('site.description')}
+  noIndex={true}
+>
+  <script define:vars={{ lang }}>
+    // Sayfa yüklendiğinde splash ekranına yönlendir
+    if (typeof window !== 'undefined') {
+      const splashPath = lang === 'en' ? '/en/splash' : '/splash';
+      window.location.replace(splashPath);
+    }
+  </script>
+
+  <div class="loading">
+    <h1>🚗 {t('site.name')}</h1>
+    <p>{t('splash.redirecting')}</p>
+  </div>
+</Layout>
+
+<style>
+  .loading {
+    margin: 0;
+    padding: 20px;
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+</style>

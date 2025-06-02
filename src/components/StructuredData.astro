@@ -1,0 +1,132 @@
+---
+// JSON-LD structured data for the website
+interface Props {
+  pageType?: 'WebSite' | 'WebApplication' | 'ContactPage' | 'AboutPage';
+  title?: string;
+  description?: string;
+  url?: string;
+}
+
+const {
+  pageType = 'WebApplication',
+  title = 'Araç Kart - QR Kod İletişim Sistemi',
+  description = 'Park halindeki araç sahipleriyle QR kod üzerinden hızlı ve güvenli iletişim kurun',
+  url = Astro.url.href
+} = Astro.props;
+
+const baseUrl = Astro.site || 'https://car-card-qr.com';
+
+// Main website structured data
+const websiteData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Araç Kart",
+  "alternateName": "Car Card",
+  "url": baseUrl,
+  "description": description,
+  "inLanguage": ["tr-TR", "en-US"],
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${baseUrl}/search?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// Application specific data
+const applicationData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Araç Kart",
+  "description": description,
+  "url": baseUrl,
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and camera access for QR scanning",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": [
+    "QR kod ile hızlı iletişim",
+    "Güvenli mesajlaşma sistemi",
+    "Ücretsiz QR kod oluşturucu",
+    "Çok dilli destek",
+    "Mobil uyumlu tasarım"
+  ],
+  "screenshot": `${baseUrl}/screenshot-mobile.png`,
+  "softwareVersion": "1.0.0",
+  "datePublished": "2025-01-01",
+  "dateModified": new Date().toISOString().split('T')[0],
+  "author": {
+    "@type": "Organization",
+    "name": "Araç Kart Ekibi"
+  }
+};
+
+// Organization data
+const organizationData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Araç Kart",
+  "url": baseUrl,
+  "description": "Park halindeki araçlar için modern iletişim çözümü geliştiren teknoloji ekibi",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "availableLanguage": ["Turkish", "English"]
+  },
+  "sameAs": [
+    "https://github.com/car-card-qr" // Update with actual social media links
+  ]
+};
+
+// FAQ Data for common questions
+const faqData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Araç Kart nasıl çalışır?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Araç Kart, QR kod teknolojisi kullanarak park halindeki araç sahipleriyle iletişim kurmanızı sağlar. QR kodu tarayarak araç sahibine güvenli mesaj gönderebilirsiniz."
+      }
+    },
+    {
+      "@type": "Question", 
+      "name": "QR kod oluşturmak ücretsiz mi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Evet, QR kod oluşturma ve kullanma tamamen ücretsizdir. Herhangi bir ücret veya abonelik yoktur."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kişisel bilgilerim güvende mi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Evet, kişisel bilgileriniz güvendedir. Verileriniz şifrelenir ve sadece iletişim kurma amacıyla kullanılır."
+      }
+    }
+  ]
+};
+
+const currentData = pageType === 'WebSite' ? websiteData : applicationData;
+---
+
+<!-- Website/Application Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(currentData)} />
+
+<!-- Organization Data -->
+<script type="application/ld+json" set:html={JSON.stringify(organizationData)} />
+
+<!-- FAQ Data (only on main pages) -->
+{pageType === 'WebApplication' && (
+  <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
+)}

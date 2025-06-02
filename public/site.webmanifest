@@ -1,0 +1,58 @@
+{
+  "name": "Araç Kart - QR Kod İletişim Sistemi",
+  "short_name": "Araç Kart",
+  "description": "Park halindeki araç sahipleriyle QR kod üzerinden hızlı ve güvenli iletişim kurun",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1f2937",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "tr",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity", "automotive"],
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Ana sayfa mobil görünüm"
+    },
+    {
+      "src": "/screenshot-desktop.png", 
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Ana sayfa masaüstü görünüm"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "QR Kod Oluştur",
+      "short_name": "QR Oluştur", 
+      "description": "Yeni araç kartı QR kodu oluştur",
+      "url": "/qr-generator",
+      "icons": [
+        {
+          "src": "/qr-icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+---
+import vehicleData from '../data/vehicle-info.json';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  className?: string;
+  vehicleData?: any;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { className = '', vehicleData: propVehicleData } = Astro.props;
+const vehicleInfo = propVehicleData || vehicleData.vehicleInfo;
+
+// Function to get brand logo URL
+function getBrandLogoUrl(brand: string): string {
+  const brandName = brand.toLowerCase();
+  return `https://cdn.jsdelivr.net/gh/gilbarbara/logos@main/logos/${brandName}.svg`;
+}
+---
+
+<div class={`bg-white rounded-lg p-6 border border-gray-200 ${className}`}>
+  <div class="text-center mb-4">
+    <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 p-2">
+      <img 
+        src={getBrandLogoUrl(vehicleInfo.brand)} 
+        alt={`${vehicleInfo.brand} logo`}
+        class="w-full h-full object-contain"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+      />
+      <span class="text-2xl" style="display: none;">🚗</span>
+    </div>
+    <h2 class="text-xl font-bold text-gray-800 mb-1">
+      {vehicleInfo.brand} {vehicleInfo.model}
+    </h2>
+    <p class="text-gray-600 text-sm">{vehicleInfo.year} • {vehicleInfo.color}</p>
+  </div>
+  
+  <div class="space-y-3">
+    <div class="flex items-center justify-between">
+      <span class="text-gray-600 text-sm">{t('vehicle.plate')}</span>
+      <span class="font-mono font-bold text-gray-800">{vehicleInfo.plateNumber}</span>
+    </div>
+    
+    <div class="flex items-center justify-between">
+      <span class="text-gray-600 text-sm">{t('vehicle.owner')}</span>
+      <span class="font-medium text-gray-800">{vehicleInfo.ownerName}</span>
+    </div>
+    
+    <div class="flex items-center justify-between">
+      <span class="text-gray-600 text-sm">{t('vehicle.location')}</span>
+      <span class="text-gray-800 text-sm">{vehicleInfo.parkingLocation}</span>
+    </div>
+  </div>
+  
+  <div class="mt-4 pt-4 border-t border-gray-100">
+    {vehicleInfo.showPhoneNumber && (
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center text-gray-600 text-xs">
+            <span class="mr-2">📞</span>
+            <span>{t('vehicle.emergency.call')}</span>
+          </div>
+          <button 
+            id="showPhoneBtn"
+            class="bg-green-600 text-white text-xs px-3 py-1 rounded-lg hover:bg-green-700 transition-colors font-medium"
+          >
+            📱 {t('vehicle.show.number')}
+          </button>
+        </div>
+        
+        <!-- Hidden phone number (initially hidden) -->
+        <div id="phoneNumber" class="hidden">
+          <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+            <div class="text-center">
+              <span class="font-mono font-bold text-green-800 text-lg">{vehicleInfo.emergencyContact}</span>
+              <p class="text-xs text-green-600 mt-1">
+                ⚠️ {t('vehicle.emergency.only')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+<!-- Phone Number Confirmation Modal -->
+<div id="phoneModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg max-w-sm w-full p-6">
+    <div class="text-center mb-4">
+      <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+        <span class="text-2xl">⚠️</span>
+      </div>
+      <h3 class="font-bold text-gray-800 mb-2">{t('vehicle.phone.modal.title')}</h3>
+      <p class="text-sm text-gray-600">
+        {t('vehicle.phone.modal.description')}
+      </p>
+    </div>
+    
+    <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+      <p class="text-xs text-red-700">
+        {t('vehicle.phone.modal.warning')}
+      </p>
+    </div>
+     <div class="flex space-x-3">
+      <button
+        id="cancelPhone"
+        class="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+      >
+        ❌ {t('vehicle.phone.modal.cancel')}
+      </button>
+      <button 
+        id="confirmPhone"
+        class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
+      >
+        ✅ {t('vehicle.phone.modal.confirm')}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const showPhoneBtn = document.getElementById('showPhoneBtn');
+    const phoneModal = document.getElementById('phoneModal');
+    const phoneNumber = document.getElementById('phoneNumber');
+    const cancelPhone = document.getElementById('cancelPhone');
+    const confirmPhone = document.getElementById('confirmPhone');
+    
+    if (showPhoneBtn && phoneModal && phoneNumber && cancelPhone && confirmPhone) {
+      // Show modal when button clicked
+      showPhoneBtn.addEventListener('click', function() {
+        phoneModal.classList.remove('hidden');
+      });
+      
+      // Cancel - hide modal
+      cancelPhone.addEventListener('click', function() {
+        phoneModal.classList.add('hidden');
+      });
+      
+      // Confirm - show phone number and hide modal
+      confirmPhone.addEventListener('click', function() {
+        phoneModal.classList.add('hidden');
+        phoneNumber.classList.remove('hidden');
+        showPhoneBtn.style.display = 'none';
+      });
+      
+      // Close modal when clicking outside
+      phoneModal.addEventListener('click', function(e) {
+        if (e.target === phoneModal) {
+          phoneModal.classList.add('hidden');
+        }
+      });
+    }
+  });
+</script>

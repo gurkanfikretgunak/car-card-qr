@@ -1,0 +1,300 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout 
+  title={t('qr.title') + ' - ' + t('site.name')}
+  description={t('qr.subtitle') + ' - ' + t('site.description')}
+  type="webapp"
+>
+  <main class="min-h-screen bg-gray-50 py-8 px-4">
+    <div class="max-w-md mx-auto space-y-6">
+      <!-- Header -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="text-2xl">📱</span>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">{t('qr.title')}</h1>
+        <p class="text-gray-600">{t('qr.subtitle')}</p>
+      </div>
+      
+      <!-- QR Code Generator Form -->
+      <div class="bg-white rounded-lg p-6 border border-gray-200 mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">📝 {t('qr.form.title')}</h2>
+        
+        <form id="qrForm" class="space-y-4">
+          <div>
+            <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">Marka *</label>
+            <input type="text" id="brand" name="brand" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="BMW, Mercedes, Audi...">
+          </div>
+          
+          <div>
+            <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Model *</label>
+            <input type="text" id="model" name="model" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="X5, C-Class, A4...">
+          </div>
+          
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Yıl</label>
+              <input type="number" id="year" name="year" min="1990" max="2025"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                placeholder="2023">
+            </div>
+            <div>
+              <label for="color" class="block text-sm font-medium text-gray-700 mb-1">Renk</label>
+              <input type="text" id="color" name="color"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                placeholder="Siyah">
+            </div>
+          </div>
+          
+          <div>
+            <label for="plateNumber" class="block text-sm font-medium text-gray-700 mb-1">Plaka *</label>
+            <input type="text" id="plateNumber" name="plateNumber" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="34 ABC 123">
+          </div>
+          
+          <div>
+            <label for="ownerName" class="block text-sm font-medium text-gray-700 mb-1">Adınız *</label>
+            <input type="text" id="ownerName" name="ownerName" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="Ahmet Yılmaz">
+          </div>
+          
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefon *</label>
+            <input type="tel" id="phone" name="phone" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              placeholder="+90 555 123 4567">
+          </div>
+          
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <label class="flex items-start space-x-3">
+              <input type="checkbox" id="showPhoneNumber" name="showPhoneNumber" checked
+                class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+              <div class="flex-1">
+                <span class="text-sm font-medium text-gray-700">📞 Telefon numaramı göster</span>
+                <p class="text-xs text-gray-500 mt-1">
+                  İşaretli olursa telefon numaranız araç kartında görünür. Devre dışı bırakırsanız sadece mesaj formu kullanılabilir.
+                </p>
+              </div>
+            </label>
+          </div>
+          
+          <button type="submit"
+            class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+            🎯 QR Kod Oluştur
+          </button>
+        </form>
+      </div>
+      
+      <!-- QR Code Display -->
+      <div id="qrResult" class="hidden bg-white rounded-lg p-6 border border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">📱 QR Kodunuz Hazır!</h3>
+        
+        <div class="text-center mb-6">
+          <div id="qrcode" class="inline-block p-4 bg-white border-2 border-gray-200 rounded-lg"></div>
+        </div>
+        
+        <div class="space-y-3">
+          <button id="downloadBtn"
+            class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors">
+            📥 PNG Olarak İndir
+          </button>
+          
+          <button id="printBtn"
+            class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+            🖨️ Yazdır
+          </button>
+          
+          <button id="newQrBtn"
+            class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors">
+            🔄 Yeni QR Kod Oluştur
+          </button>
+        </div>
+        
+        <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+          <p class="text-sm text-blue-800">
+            💡 <strong>İpucu:</strong> QR kodu araç içinde görülebilecek bir yere yapıştırın. 
+            Diğer sürücüler kodu tarayarak sizinle iletişime geçebilir.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Vehicle Preview Card -->
+      <div id="vehiclePreview" class="hidden bg-white rounded-lg p-6 border border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">👀 Araç Kartı Önizlemesi</h3>
+        
+        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 border">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-3">
+              <div id="previewLogo" class="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
+                <span class="text-sm">🚗</span>
+              </div>
+              <div>
+                <h3 id="previewTitle" class="font-semibold text-gray-800">Vehicle</h3>
+                <p id="previewPlate" class="text-sm text-gray-600">Plate</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p id="previewYear" class="text-sm font-medium text-gray-700"></p>
+              <p id="previewColor" class="text-sm text-gray-500"></p>
+            </div>
+          </div>
+          
+          <div class="border-t pt-3">
+            <p class="text-sm text-gray-600 mb-3">
+              <span class="font-medium">Araç Sahibi:</span> <span id="previewOwner">-</span>
+            </p>
+            
+            <div id="previewPhoneSection" class="hidden">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-sm font-medium text-gray-700">📞 Telefon</span>
+                <span id="previewPhone" class="text-sm text-blue-600">-</span>
+              </div>
+            </div>
+            
+            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium">
+              📧 Mesaj Gönder
+            </button>
+          </div>
+        </div>
+        
+        <p class="text-xs text-gray-500 text-center mt-3">
+          Bu kartın tam hali QR kod tarandığında görünecektir
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+</Layout>
+
+<script>
+  import QRCode from 'qrcode';
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const qrForm = document.getElementById('qrForm') as HTMLFormElement;
+    const qrResult = document.getElementById('qrResult') as HTMLDivElement;
+    const qrCodeDiv = document.getElementById('qrcode') as HTMLDivElement;
+    const downloadBtn = document.getElementById('downloadBtn') as HTMLButtonElement;
+    const printBtn = document.getElementById('printBtn') as HTMLButtonElement;
+    const newQrBtn = document.getElementById('newQrBtn') as HTMLButtonElement;
+    
+    let currentQRCanvas: HTMLCanvasElement;
+    
+    qrForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(qrForm);
+      const vehicleData = {
+        brand: formData.get('brand') as string,
+        model: formData.get('model') as string,
+        year: formData.get('year') as string || '',
+        color: formData.get('color') as string || '',
+        plateNumber: formData.get('plateNumber') as string,
+        ownerName: formData.get('ownerName') as string,
+        emergencyContact: formData.get('phone') as string || '',
+        showPhoneNumber: formData.get('showPhoneNumber') === 'on'
+      };
+      
+      // Create URL for main page with vehicle data
+      const contactUrl = `${window.location.origin}/main?vehicle=${encodeURIComponent(JSON.stringify(vehicleData))}`;
+      
+      try {
+        // Clear previous QR code
+        qrCodeDiv.innerHTML = '';
+        
+        // Generate QR code
+        currentQRCanvas = await QRCode.toCanvas(contactUrl, {
+          width: 200,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#FFFFFF'
+          }
+        });
+        
+        qrCodeDiv.appendChild(currentQRCanvas);
+        
+        // Show result section
+        qrResult.classList.remove('hidden');
+        qrResult.scrollIntoView({ behavior: 'smooth' });
+        
+      } catch (error) {
+        alert('QR kod oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
+      }
+    });
+    
+    downloadBtn.addEventListener('click', function() {
+      if (currentQRCanvas) {
+        const link = document.createElement('a');
+        link.download = 'arac-qr-kod.png';
+        link.href = currentQRCanvas.toDataURL();
+        link.click();
+      }
+    });
+    
+    printBtn.addEventListener('click', function() {
+      if (currentQRCanvas) {
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+          printWindow.document.write(`
+            <html>
+              <head>
+                <title>Araç QR Kod</title>
+                <style>
+                  body { 
+                    margin: 0; 
+                    padding: 20px; 
+                    text-align: center; 
+                    font-family: Arial, sans-serif; 
+                  }
+                  .qr-container { 
+                    border: 2px solid #000; 
+                    padding: 20px; 
+                    display: inline-block; 
+                    margin: 20px;
+                  }
+                  .instructions {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    color: #666;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="qr-container">
+                  <h2>Araç İletişim QR Kodu</h2>
+                  <img src="${currentQRCanvas.toDataURL()}" alt="QR Kod">
+                  <div class="instructions">
+                    <p>Bu QR kodu tarayarak araç sahibiyle iletişime geçebilirsiniz</p>
+                  </div>
+                </div>
+              </body>
+            </html>
+          `);
+          printWindow.document.close();
+          printWindow.print();
+        }
+      }
+    });
+    
+    newQrBtn.addEventListener('click', function() {
+      qrResult.classList.add('hidden');
+      qrForm.reset();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>

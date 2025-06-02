@@ -1,0 +1,58 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  image?: string;
+  url?: string;
+  type?: 'website' | 'article' | 'webapp';
+  locale?: string;
+  siteName?: string;
+}
+
+const {
+  title = 'Araç Kart - QR Kod İletişim Sistemi',
+  description = 'Park halindeki araç sahipleriyle QR kod üzerinden hızlı ve güvenli iletişim kurun',
+  keywords = 'araç kart, park iletişim, qr kod araç, araç sahibi ulaşma',
+  image = '/og-image.jpg',
+  url = Astro.url.href,
+  type = 'website',
+  locale = 'tr_TR',
+  siteName = 'Araç Kart'
+} = Astro.props;
+
+const fullImageUrl = new URL(image, Astro.site || 'https://car-card-qr.web.app').href;
+---
+
+<!-- Essential SEO Meta Tags -->
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href={url} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={fullImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={locale} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={url} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={fullImageUrl} />
+
+<!-- Additional Meta -->
+<meta name="author" content="Araç Kart Ekibi" />
+<meta name="language" content={locale.split('_')[0]} />
+<meta name="revisit-after" content="7 days" />
+<meta name="rating" content="general" />
+<meta name="distribution" content="global" />
+
+<title>{title}</title>

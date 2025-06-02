@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout 
+  title="404 - Sayfa Bulunamadı | Araç Kart"
+  description="Aradığınız sayfa bulunamadı. Ana sayfaya dönün."
+  noIndex={true}
+>
+  <main class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div class="text-center max-w-md mx-auto">
+      <!-- Error Icon -->
+      <div class="w-24 h-24 mx-auto mb-8 text-8xl">
+        🚗💨
+      </div>
+      
+      <!-- Error Message -->
+      <h1 class="text-4xl font-bold text-gray-800 mb-4">404</h1>
+      <h2 class="text-2xl font-semibold text-gray-700 mb-4">
+        {lang === 'tr' ? 'Sayfa Bulunamadı' : 'Page Not Found'}
+      </h2>
+      <p class="text-gray-600 mb-8">
+        {lang === 'tr' 
+          ? 'Aradığınız sayfa mevcut değil veya taşınmış olabilir.' 
+          : 'The page you are looking for does not exist or may have been moved.'
+        }
+      </p>
+      
+      <!-- Action Buttons -->
+      <div class="space-y-4">
+        <a 
+          href={lang === 'tr' ? '/' : '/en'}
+          class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+        >
+          {lang === 'tr' ? '🏠 Ana Sayfaya Dön' : '🏠 Go Home'}
+        </a>
+        
+        <div>
+          <a 
+            href={lang === 'tr' ? '/qr-generator' : '/en/qr-generator'}
+            class="inline-block text-blue-600 hover:text-blue-800 font-medium underline"
+          >
+            {lang === 'tr' ? '📱 QR Kod Oluştur' : '📱 Create QR Code'}
+          </a>
+        </div>
+      </div>
+      
+      <!-- Contact Info -->
+      <div class="mt-12 pt-8 border-t border-gray-200">
+        <p class="text-sm text-gray-500">
+          {lang === 'tr' 
+            ? 'Sorun devam ederse, lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.' 
+            : 'If the problem persists, please refresh the page or try again later.'
+          }
+        </p>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Simple animation for the car emoji */
+  .text-8xl {
+    animation: float 2s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+</style>

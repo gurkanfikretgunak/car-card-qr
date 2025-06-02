@@ -1,0 +1,86 @@
+---
+import { languages } from '../i18n/languages';
+import { getLangFromUrl, useTranslations, getLocalizedPath, getAlternativeLanguage } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const altLang = getAlternativeLanguage(lang);
+const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
+---
+
+<div class="relative inline-block">
+  <button 
+    id="languageToggle"
+    class="flex items-center space-x-2 px-3 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 transition-colors"
+    aria-label={t('nav.change.language')}
+  >
+    <span class="text-sm">🌐</span>
+    <span class="text-sm font-medium">{languages[lang]}</span>
+    <svg class="w-4 h-4 transition-transform duration-200" id="languageIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+  
+  <div 
+    id="languageDropdown"
+    class="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50"
+  >
+    <div class="py-2">
+      <div class="px-4 py-2 text-xs text-gray-500 border-b border-gray-100">
+        {t('nav.language')}
+      </div>
+      
+      {Object.entries(languages).map(([code, name]) => (
+        <a
+          href={getLocalizedPath(currentPath, code)}
+          class={`block px-4 py-3 text-sm hover:bg-gray-50 transition-colors ${
+            code === lang ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
+          }`}
+        >
+          <div class="flex items-center justify-between">
+            <span>{name}</span>
+            {code === lang && (
+              <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            )}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('languageToggle');
+    const dropdown = document.getElementById('languageDropdown');
+    const icon = document.getElementById('languageIcon');
+    
+    if (toggle && dropdown && icon) {
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = !dropdown.classList.contains('hidden');
+        
+        if (isOpen) {
+          dropdown.classList.add('hidden');
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          dropdown.classList.remove('hidden');
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        dropdown.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+      });
+      
+      // Prevent dropdown from closing when clicking inside
+      dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+  });
+</script>

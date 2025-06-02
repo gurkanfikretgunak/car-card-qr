@@ -1,0 +1,88 @@
+---
+// Google Analytics and other tracking scripts
+interface Props {
+  googleAnalyticsId?: string;
+  enableHotjar?: boolean;
+  enableGoogleTagManager?: boolean;
+  gtmId?: string;
+}
+
+const {
+  googleAnalyticsId = 'G-XXXXXXXXXX', // Replace with your actual GA4 ID
+  enableHotjar = false,
+  enableGoogleTagManager = false,
+  gtmId = 'GTM-XXXXXXX' // Replace with your actual GTM ID
+} = Astro.props;
+---
+
+{googleAnalyticsId && (
+  <>
+    <!-- Google Analytics 4 -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+    <script define:vars={{ googleAnalyticsId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', googleAnalyticsId, {
+        page_title: document.title,
+        page_location: window.location.href,
+        anonymize_ip: true,
+        cookie_flags: 'secure;samesite=strict'
+      });
+    </script>
+  </>
+)}
+
+{enableGoogleTagManager && gtmId && (
+  <>
+    <!-- Google Tag Manager -->
+    <script define:vars={{ gtmId }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',gtmId);
+    </script>
+  </>
+)}
+
+{enableHotjar && (
+  <!-- Hotjar Tracking Code -->
+  <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3158748,hjsv:6}; // Replace with your Hotjar ID
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+)}
+
+<!-- Performance monitoring -->
+<script>
+  // Simple performance monitoring
+  window.addEventListener('load', function() {
+    // Track page load time
+    const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+    if (window.gtag && loadTime > 0) {
+      gtag('event', 'page_load_time', {
+        value: Math.round(loadTime),
+        custom_parameter: 'load_time_ms'
+      });
+    }
+  });
+  
+  // Track QR code interactions
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.matches('[data-track-qr]')) {
+      if (window.gtag) {
+        gtag('event', 'qr_interaction', {
+          event_category: 'engagement',
+          event_label: e.target.dataset.trackQr || 'qr_click'
+        });
+      }
+    }
+  });
+</script>
