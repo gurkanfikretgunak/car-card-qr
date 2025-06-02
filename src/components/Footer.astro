@@ -68,6 +68,14 @@ const { className = '' } = Astro.props;
         <p class="text-xs text-gray-400">
           {t('footer.copyright')}
         </p>
+        
+        <!-- Version Info -->
+        <div class="flex items-center justify-center space-x-1">
+          <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full font-mono">
+            v1.0.0+RC
+          </span>
+        </div>
+        
         <div class="flex items-center justify-center space-x-1">
           <span class="text-xs text-gray-400">{t('footer.created.by')}</span>
           <a 
