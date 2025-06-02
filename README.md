@@ -88,7 +88,7 @@ Use the included `run.sh` script for easy project management:
 
 ## 🌐 Live Demo
 
-Visit the live application: **[car-card-qr.web.app](https://carcardqr.web.app)**
+Visit the live application: **[carcardqr.web.app](https://carcardqr.web.app)**
 
 ## 📁 Project Structure
 
