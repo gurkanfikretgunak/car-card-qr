@@ -4,7 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Firebase](https://img.shields.io/badge/Hosted%20on-Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-car--card--qr.web.app-blue?style=flat-square&logo=googlechrome&logoColor=white)](https://carcardqr.web.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-carcardqr.web.app-blue?style=flat-square&logo=googlechrome&logoColor=white)](https://carcardqr.web.app)
 
 Modern QR code communication system for parked vehicles. Connect with vehicle owners quickly, securely, and efficiently using QR technology.
 
