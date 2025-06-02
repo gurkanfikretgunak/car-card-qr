@@ -1,6 +1,5 @@
----
 // Enhanced sitemap.xml for better SEO
-const baseUrl = 'https://car-card-qr.web.app'; // Update with your actual domain
+const baseUrl = 'https://carcardqr.web.app'; // Update with your actual domain
 const currentDate = new Date().toISOString().split('T')[0];
 
 // Define all pages with their metadata
@@ -99,13 +98,13 @@ const generateSitemap = () => {
   return sitemap;
 };
 
-const sitemap = generateSitemap();
+export async function GET() {
+  const sitemap = generateSitemap();
 
-return new Response(sitemap, {
-  headers: {
-    'Content-Type': 'application/xml; charset=utf-8',
-    'Cache-Control': 'public, max-age=3600, s-maxage=3600'
-  }
-});
-});
----
+  return new Response(sitemap, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600, s-maxage=3600'
+    }
+  });
+}

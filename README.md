@@ -3,9 +3,26 @@
 [![Astro](https://img.shields.io/badge/Built%20with-Astro-ff5d01?style=flat-square&logo=astro)](https://astro.build)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-car--card--qr.web.app-blue?style=flat-square&logo=googlechrome&logoColor=white)](https://car-card-qr.web.app)
+[![Firebase](https://img.shields.io/badge/Hosted%20on-Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-car--card--qr.web.app-blue?style=flat-square&logo=googlechrome&logoColor=white)](https://carcardqr.web.app)
 
 Modern QR code communication system for parked vehicles. Connect with vehicle owners quickly, securely, and efficiently using QR technology.
+
+## 🤔 Why This Project?
+
+You know that awkward moment when you need to move your car but have to leave your phone number on a piece of paper under the windshield wiper? 📝😅
+
+I was tired of the old-school method of scribbling phone numbers on random papers and sticking them on car windows. It's messy, unprofessional, and let's be honest - sometimes the paper flies away! 🌬️
+
+So I thought: "Why not use QR codes for this?" 💡
+
+Instead of exposing your phone number to everyone passing by, you can now:
+- Print a clean QR code sticker for your car 🏷️
+- Let people scan it to send you a message instantly 📱
+- Keep your privacy while staying reachable 🔒
+- Look tech-savvy while solving a everyday problem 😎
+
+I built this quickly as a modern solution to an age-old parking problem. Simple idea, clean execution, problem solved! 🚀
 
 ## ✨ Features
 
@@ -71,7 +88,7 @@ Use the included `run.sh` script for easy project management:
 
 ## 🌐 Live Demo
 
-Visit the live application: **[car-card-qr.web.app](https://car-card-qr.web.app)**
+Visit the live application: **[car-card-qr.web.app](https://carcardqr.web.app)**
 
 ## 📁 Project Structure
 
@@ -117,5 +134,5 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <div align="center">
   <p>Built with ❤️ using Astro</p>
-  <p><a href="https://car-card-qr.web.app">🚗 Try Car Card QR</a></p>
+  <p><a href="https://carcardqr.web.app">🚗 Try Car Card QR</a></p>
 </div>

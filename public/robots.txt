@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://car-card-qr.web.app/sitemap.xml
+Sitemap: https://carcardqr.web.app/sitemap.xml
 
 # Block access to sensitive areas
 Disallow: /api/

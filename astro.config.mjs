@@ -4,7 +4,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://car-card-qr.web.app', // Update this with your actual domain
+  site: 'https://carcardqr.web.app', // Update this with your actual domain
   i18n: {
     defaultLocale: "tr",
     locales: ["tr", "en"],
