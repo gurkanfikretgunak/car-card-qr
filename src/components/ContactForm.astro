@@ -140,13 +140,13 @@ const { contactReasons } = vehicleData;
           id="sendAnotherBtn"
           class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
         >
-          📝 Send Another Message
+          📝 {t('contact.send.another')}
         </button>
         <button 
           id="newContactBtn"
           class="px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors"
         >
-          🆕 New Contact
+          🆕 {t('contact.new.contact')}
         </button>
       </div>
     </div>
@@ -157,7 +157,8 @@ const { contactReasons } = vehicleData;
   successMessage: t('contact.success'),
   errorMessage: t('contact.error'),
   sendingText: t('contact.sending'),
-  submitText: t('contact.submit')
+  submitText: t('contact.submit'),
+  alreadySentMessage: t('contact.already.sent')
 }}>
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('contactForm');
@@ -168,6 +169,22 @@ const { contactReasons } = vehicleData;
     const successOptions = document.getElementById('successOptions');
     const sendAnotherBtn = document.getElementById('sendAnotherBtn');
     const newContactBtn = document.getElementById('newContactBtn');
+    
+    // Status message function (defined early to be available everywhere)
+    function showStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = `mt-4 p-4 rounded-lg ${
+        type === 'success' ? 'bg-green-100 text-green-800' :
+        type === 'error' ? 'bg-red-100 text-red-800' :
+        'bg-blue-100 text-blue-800'
+      }`;
+      statusMessage.classList.remove('hidden');
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        statusMessage.classList.add('hidden');
+      }, 5000);
+    }
     
     // Cookie helper functions
     function setCookie(name, value, hours) {
@@ -187,7 +204,7 @@ const { contactReasons } = vehicleData;
       return null;
     }
     
-    function deleteCookie(name: string) {
+    function deleteCookie(name) {
       document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;SameSite=Strict`;
     }
     
@@ -240,8 +257,12 @@ const { contactReasons } = vehicleData;
     
     // Check if message was sent successfully (persists through page refresh)
     const messageStatus = getCookie('contactMessageStatus');
-    const today = new Date().toDateString();
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
     const lastSubmissionDate = getCookie('lastContactDate');
+    
+    console.log('Debug - messageStatus:', messageStatus);
+    console.log('Debug - today:', today);
+    console.log('Debug - lastSubmissionDate:', lastSubmissionDate);
     
     if (messageStatus === 'sent' && lastSubmissionDate === today) {
       // Show success state instead of form
@@ -249,7 +270,7 @@ const { contactReasons } = vehicleData;
       successOptions.classList.remove('hidden');
     } else if (lastSubmissionDate === today) {
       // Show info message for already sent today
-      showStatus('📝 You have already sent a message today. The vehicle owner will contact you.', 'info');
+      showStatus('📝 ' + alreadySentMessage, 'info');
     }
     
     form.addEventListener('submit', async function(e) {
@@ -281,8 +302,9 @@ const { contactReasons } = vehicleData;
           successOptions.classList.remove('hidden');
           
           // Store submission in cookies (persists through page refresh)
+          const todayForCookie = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
           setCookie('contactMessageStatus', 'sent', 24); // Expires in 24 hours
-          setCookie('lastContactDate', today, 24);
+          setCookie('lastContactDate', todayForCookie, 24);
           
         } else {
           throw new Error('Form submission failed');
@@ -318,20 +340,5 @@ const { contactReasons } = vehicleData;
       deleteCookie('lastContactDate');
       deleteCookie('lastFormData');
     });
-    
-    function showStatus(message: string, type: 'success' | 'error' | 'info') {
-      statusMessage.textContent = message;
-      statusMessage.className = `mt-4 p-4 rounded-lg ${
-        type === 'success' ? 'bg-green-100 text-green-800' :
-        type === 'error' ? 'bg-red-100 text-red-800' :
-        'bg-blue-100 text-blue-800'
-      }`;
-      statusMessage.classList.remove('hidden');
-      
-      // Auto-hide after 5 seconds
-      setTimeout(() => {
-        statusMessage.classList.add('hidden');
-      }, 5000);
-    }
   });
 </script>
