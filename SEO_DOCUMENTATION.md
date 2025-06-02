@@ -89,7 +89,7 @@ This document outlines the comprehensive SEO improvements made to the Car Card Q
 - **Regional targeting** for Turkish and English markets
 
 ### Content Optimization
-- **Turkish Keywords**: araç kart, park iletişim, qr kod araç
+- **Turkish Keywords**: vehicle card, parking communication, qr code vehicle
 - **English Keywords**: car card, parking communication, vehicle qr
 - **Long-tail keywords** for better targeting
 - **Local SEO** considerations for Turkish market

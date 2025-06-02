@@ -1,7 +1,7 @@
 {
-  "name": "Araç Kart - QR Kod İletişim Sistemi",
-  "short_name": "Araç Kart",
-  "description": "Park halindeki araç sahipleriyle QR kod üzerinden hızlı ve güvenli iletişim kurun",
+  "name": "Car Card - QR Code Communication System",
+  "short_name": "Car Card",
+  "description": "Quick and secure communication with parked vehicle owners via QR codes",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -31,21 +31,21 @@
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Ana sayfa mobil görünüm"
+      "label": "Main page mobile view"
     },
     {
       "src": "/screenshot-desktop.png", 
       "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Ana sayfa masaüstü görünüm"
+      "label": "Main page desktop view"
     }
   ],
   "shortcuts": [
     {
-      "name": "QR Kod Oluştur",
-      "short_name": "QR Oluştur", 
-      "description": "Yeni araç kartı QR kodu oluştur",
+      "name": "Create QR Code",
+      "short_name": "Create QR", 
+      "description": "Create new vehicle card QR code",
       "url": "/qr-generator",
       "icons": [
         {

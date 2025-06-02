@@ -140,13 +140,13 @@ const { contactReasons } = vehicleData;
           id="sendAnotherBtn"
           class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
         >
-          📝 Tekrar Mesaj Gönder
+          📝 Send Another Message
         </button>
         <button 
           id="newContactBtn"
           class="px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors"
         >
-          🆕 Yeni İletişim
+          🆕 New Contact
         </button>
       </div>
     </div>
@@ -249,7 +249,7 @@ const { contactReasons } = vehicleData;
       successOptions.classList.remove('hidden');
     } else if (lastSubmissionDate === today) {
       // Show info message for already sent today
-      showStatus('📝 Bugün zaten bir mesaj gönderdiniz. Araç sahibi sizinle iletişime geçecektir.', 'info');
+      showStatus('📝 You have already sent a message today. The vehicle owner will contact you.', 'info');
     }
     
     form.addEventListener('submit', async function(e) {
@@ -267,7 +267,7 @@ const { contactReasons } = vehicleData;
         saveFormData();
         
         // Add additional data
-        formData.append('subject', 'Araç İletişim Talebi');
+        formData.append('subject', 'Vehicle Contact Request');
         formData.append('from_name', formData.get('name'));
         
         const response = await fetch('https://api.web3forms.com/submit', {

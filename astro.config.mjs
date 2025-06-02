@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
-// https://astro.build/config
+// Astro configuration - https://astro.build/config
 export default defineConfig({
   site: 'https://carcardqr.web.app', // Update this with your actual domain
   i18n: {
